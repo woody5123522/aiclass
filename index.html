@@ -3,73 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你的姓名 | 銀河檔案庫</title>
-    <!-- 引入科幻風格字體 -->
+    <title>吳翟 (woody) | CSIE &amp; Peripheral Enthusiast</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- 動態星空背景 -->
-    <canvas id="starfield"></canvas>
+    <!-- 動態 PCB 矩陣與銅線微光背景 -->
+    <canvas id="pcb-canvas"></canvas>
 
     <nav class="navbar">
         <div class="container">
-            <a href="#" class="logo">JEDI // PORTFOLIO</a>
+            <a href="#" class="logo">
+                <span class="logo-dot"></span>WOODY <span class="logo-sub">// 吳翟</span>
+            </a>
             <ul class="nav-links">
-                <li><a href="#about">ARCHIVES</a></li>
-                <li><a href="#contact">TRANSMISSION</a></li>
+                <li><a href="#about">01. ABOUT</a></li>
+                <li><a href="#projects">02. PROJECTS</a></li>
+                <li><a href="#gear">03. GEAR</a></li>
+                <li><a href="#contact">04. CONTACT</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="hero">
         <div class="container">
-            <p class="intro-blue">A long time ago in a galaxy far, far away....</p>
-            <h1 class="hero-name">你好，我是 <span class="highlight">你的姓名</span></h1>
-            
-            <!-- 星戰經典片頭字幕透視效果 -->
-            <div class="crawl-wrapper">
-                <div class="crawl-content">
-                    <p class="episode">EPISODE IV: A NEW CODE</p>
-                    <p class="hero-tagline">
-                        專注於 [領域] 的開發者，熱衷於將複雜問題轉化為簡潔、有溫度的數位體驗。在浩瀚的程式碼星系中，致力於打造兼具美學與原力的數位產品。
-                    </p>
-                </div>
+            <div class="status-badge">
+                <span class="badge-indicator"></span>
+                NTPU CSIE · HARDWARE MODDER · FPS PLAYER
             </div>
+            <h1 class="hero-name">
+                你好，我是 <span class="highlight">吳翟</span>
+                <span class="hero-alias">Wu Ti / woody</span>
+            </h1>
+            <p class="hero-tagline">
+                國立臺北大學資訊工程學系學生，同時是深耕客製化鍵盤與電競滑鼠的硬體玩家。<br>
+                在程式碼、資安攻防與微動改裝之間，專注於打磨每一次精準的手感與系統回饋。
+            </p>
 
             <div class="hero-btns">
-                <a href="#about" class="btn btn-saber-blue">View Holocron</a>
-                <a href="#contact" class="btn btn-saber-gold">Send Transmission</a>
+                <a href="#projects" class="keycap-btn keycap-burgundy">
+                    <span class="key-legend">ENTER</span>
+                    <span class="key-label">檢視技術專案</span>
+                </a>
+                <a href="#gear" class="keycap-btn keycap-dark">
+                    <span class="key-legend">SPEC</span>
+                    <span class="key-label">外設與評測</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <section id="about" class="section">
+    <section id="about" class="section reveal">
         <div class="container">
-            <h2 class="section-title">01 // JEDI ARCHIVES (About Me)</h2>
-            <div class="holo-panel">
-                <p>
-                    這裡填入你的自我介紹。你可以提到你的專業背景，以及你提到的特質：珍惜長期陪伴的工具、對環境的感情，以及你如何將這份細膩觀察融入到你的作品中。
-                </p>
-                <p>
-                    目前我專注於探索 <span class="text-gold">[技術 A]</span> 與 <span class="text-blue">[技術 B]</span> 的結合，致力於打造高效且易用的產品。
-                </p>
+            <div class="section-header">
+                <span class="section-index">01 // PROFILE</span>
+                <h2 class="section-title">關於我</h2>
+            </div>
+
+            <div class="panel about-grid">
+                <div class="about-text">
+                    <p>
+                        目前就讀於<strong>國立臺北大學資訊工程學系</strong>，專注於系統與軟體開發、資料庫架構、Web 互動工具與資訊安全研究，也正持續精進演算法、作業系統與計算機結構等核心領域。
+                    </p>
+                    <p>
+                        在寫程式之外，我從 2020 年開始深入研究<strong>客製化機械鍵盤</strong>與<strong>電競滑鼠</strong>：偏好無棉結構、陽極黑鋁外殼搭配不鏽鋼或銅配重的純粹聲學表現，也習慣親手拆解、更換微動與編碼器、修復 PCB 焊盤，將超過 40 顆滑鼠與多把鍵盤的使用經驗整理成實測影片與文字評測。
+                    </p>
+                    <p>
+                        閒暇時則透過 <strong>Apex Legends</strong> 高強度競技、晚間打桌球、健身與帶狗散步，保持專注與生活節奏。
+                    </p>
+                </div>
+
+                <div class="spec-list">
+                    <div class="spec-item">
+                        <span class="spec-key">EDUCATION</span>
+                        <span class="spec-val">國立臺北大學 資訊工程學系</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-key">TECH STACK</span>
+                        <span class="spec-val">Python / PyTorch / SQL / HTML·CSS·JS</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-key">HARDWARE</span>
+                        <span class="spec-val">鍵盤組裝調校 / 滑鼠微動與 PCB 維修</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-key">CONTENT</span>
+                        <span class="spec-val">Bilibili 打字音與拆解 / Medium 硬體評測</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="section">
+    <section id="projects" class="section reveal">
         <div class="container">
-            <h2 class="section-title">02 // SUBSPACE TRANSMISSION (Contact)</h2>
-            <div class="holo-panel">
-                <p class="contact-text">開啟全息通訊頻道，歡迎透過以下管道與我聯繫，一起探討星際合作任務！</p>
+            <div class="section-header">
+                <span class="section-index">02 // SELECTED WORKS</span>
+                <h2 class="section-title">技術專案</h2>
+            </div>
+
+            <div class="card-grid">
+                <article class="panel project-card">
+                    <div class="card-meta">
+                        <span class="tag tag-copper">SECURITY / AI</span>
+                        <span class="card-year">2026</span>
+                    </div>
+                    <h3 class="card-title">自動化 XSS Payload 生成與 WAF 評估</h3>
+                    <p class="card-desc">
+                        結合大型語言模型（LLM）、DDQN 強化學習與特徵分析，建立自動化 XSS 載荷生成框架，針對 ModSecurity CRS、TinyBERT、Nemesida 與 SafeLine WAF 進行防禦能力實測。
+                    </p>
+                    <div class="tech-pills">
+                        <span>LLM</span>
+                        <span>DDQN</span>
+                        <span>WAF Testing</span>
+                    </div>
+                </article>
+
+                <article class="panel project-card">
+                    <div class="card-meta">
+                        <span class="tag tag-burgundy">WEB APP</span>
+                        <span class="card-year">2026</span>
+                    </div>
+                    <h3 class="card-title">互動式客製化鍵盤配置預覽器</h3>
+                    <p class="card-desc">
+                        專為客製化鍵盤玩家打造的本地端網頁配置工具，支援即時切換 WK / WKL / HHKB 配列，並可自由搭配 Kaze Mini、Cloudline V1 等套件與 GMK Burgundy 等經典鍵帽配色。
+                    </p>
+                    <div class="tech-pills">
+                        <span>HTML / CSS</span>
+                        <span>JavaScript</span>
+                        <span>UI Design</span>
+                    </div>
+                </article>
+
+                <article class="panel project-card">
+                    <div class="card-meta">
+                        <span class="tag tag-steel">DATABASE / TOOL</span>
+                        <span class="card-year">2026</span>
+                    </div>
+                    <h3 class="card-title">外設收藏索引系統 &amp; SteamDB</h3>
+                    <p class="card-desc">
+                        設計結合本地資料庫的網頁管理介面，系統化整理鍵盤、滑鼠、軸體、鍵帽規格與外部評測連結；另以 MySQL Workbench 建置完整的 Steam 玩家遊戲資料庫系統。
+                    </p>
+                    <div class="tech-pills">
+                        <span>MySQL</span>
+                        <span>Local DB</span>
+                        <span>Web UI</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="gear" class="section reveal">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-index">03 // DAILY DRIVERS &amp; BENCH</span>
+                <h2 class="section-title">裝備配置與創作</h2>
+            </div>
+
+            <div class="gear-grid">
+                <div class="panel gear-card">
+                    <h3 class="gear-heading">Keyboards // 無棉線性派</h3>
+                    <ul class="gear-list">
+                        <li>
+                            <span class="gear-name">Kaze Mini (Anodized Black)</span>
+                            <span class="gear-detail">拋光不鏽鋼配重 · ZED60 CEM-3 焊接版 · 鋁定</span>
+                        </li>
+                        <li>
+                            <span class="gear-name">Grit Wraith60</span>
+                            <span class="gear-detail">Pre-retool Cherry MX Black · GMK Mono</span>
+                        </li>
+                        <li>
+                            <span class="gear-name">Keycaps &amp; Switches</span>
+                            <span class="gear-detail">GMK Burgundy / Beige / Ishtar R2 · MX Black / HG Black / Nixie</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="panel gear-card">
+                    <h3 class="gear-heading">Mice &amp; Pad // 競技與拆解</h3>
+                    <ul class="gear-list">
+                        <li>
+                            <span class="gear-name">Razer Viper V4 Pro (White)</span>
+                            <span class="gear-detail">主力競技滑鼠 · 追求零空鍵程與穩定按壓手感</span>
+                        </li>
+                        <li>
+                            <span class="gear-name">Razer Viper Mini Signature Edition</span>
+                            <span class="gear-detail">黑 / 白雙色收藏 · 深度對比超過 40 款鼠型</span>
+                        </li>
+                        <li>
+                            <span class="gear-name">107 eSport 琉璃玻璃墊</span>
+                            <span class="gear-detail">搭配高強度 Apex Legends 實戰測試與評測紀錄</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section reveal">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-index">04 // TRANSMISSION</span>
+                <h2 class="section-title">聯絡與平台</h2>
+            </div>
+
+            <div class="panel contact-panel">
+                <p class="contact-text">
+                    無論是軟體專案交流、資工技術討論，或是鍵盤與滑鼠的調校、改裝與評測合作，都歡迎透過以下管道聯繫我。
+                </p>
                 <div class="contact-links">
-                    <a href="mailto:your-email@example.com" class="contact-item">[ EMAIL_LINK ]</a>
-                    <a href="https://github.com/your-username" target="_blank" class="contact-item">[ GITHUB_CORE ]</a>
-                    <a href="https://linkedin.com/in/your-profile" target="_blank" class="contact-item">[ LINKEDIN_NET ]</a>
+                    <a href="mailto:your-email@example.com" class="keycap-btn keycap-dark contact-key">
+                        <span class="key-legend">MAIL</span>
+                        <span class="key-label">Email</span>
+                    </a>
+                    <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer" class="keycap-btn keycap-dark contact-key">
+                        <span class="key-legend">CODE</span>
+                        <span class="key-label">GitHub</span>
+                    </a>
+                    <a href="https://space.bilibili.com/your-id" target="_blank" rel="noopener noreferrer" class="keycap-btn keycap-burgundy contact-key">
+                        <span class="key-legend">VIDEO</span>
+                        <span class="key-label">Bilibili</span>
+                    </a>
+                    <a href="https://medium.com/@your-username" target="_blank" rel="noopener noreferrer" class="keycap-btn keycap-dark contact-key">
+                        <span class="key-legend">BLOG</span>
+                        <span class="key-label">Medium</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -77,7 +239,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 你的姓名 // MAY THE FORCE BE WITH YOU.</p>
+            <p>&copy; 2026 吳翟 (woody) // ANODIZED BLACK &amp; FOAMLESS.</p>
         </div>
     </footer>
 
