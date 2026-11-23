@@ -3,61 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你的姓名 | 個人空間</title>
+    <title>你的姓名 | 銀河檔案庫</title>
+    <!-- 引入科幻風格字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- 動態星空背景 -->
+    <canvas id="starfield"></canvas>
+
     <nav class="navbar">
         <div class="container">
-            <a href="#" class="logo">PORTFOLIO</a>
+            <a href="#" class="logo">JEDI // PORTFOLIO</a>
             <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about">ARCHIVES</a></li>
+                <li><a href="#contact">TRANSMISSION</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="hero">
         <div class="container">
+            <p class="intro-blue">A long time ago in a galaxy far, far away....</p>
             <h1 class="hero-name">你好，我是 <span class="highlight">你的姓名</span></h1>
-            <p class="hero-tagline">專注於 [領域] 的開發者，熱衷於將複雜問題轉化為簡潔、有溫度的數位體驗。</p>
+            
+            <!-- 星戰經典片頭字幕透視效果 -->
+            <div class="crawl-wrapper">
+                <div class="crawl-content">
+                    <p class="episode">EPISODE IV: A NEW CODE</p>
+                    <p class="hero-tagline">
+                        專注於 [領域] 的開發者，熱衷於將複雜問題轉化為簡潔、有溫度的數位體驗。在浩瀚的程式碼星系中，致力於打造兼具美學與原力的數位產品。
+                    </p>
+                </div>
+            </div>
+
             <div class="hero-btns">
-                <a href="#work" class="btn btn-primary">View Work</a>
-                <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                <a href="#about" class="btn btn-saber-blue">View Holocron</a>
+                <a href="#contact" class="btn btn-saber-gold">Send Transmission</a>
             </div>
         </div>
     </header>
 
     <section id="about" class="section">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
+            <h2 class="section-title">01 // JEDI ARCHIVES (About Me)</h2>
+            <div class="holo-panel">
                 <p>
                     這裡填入你的自我介紹。你可以提到你的專業背景，以及你提到的特質：珍惜長期陪伴的工具、對環境的感情，以及你如何將這份細膩觀察融入到你的作品中。
                 </p>
                 <p>
-                    目前我專注於探索 [技術 A] 與 [技術 B] 的結合，致力於打造高效且易用的產品。
+                    目前我專注於探索 <span class="text-gold">[技術 A]</span> 與 <span class="text-blue">[技術 B]</span> 的結合，致力於打造高效且易用的產品。
                 </p>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="section bg-light">
+    <section id="contact" class="section">
         <div class="container">
-            <h2 class="section-title">Contact</h2>
-            <p class="contact-text">歡迎透過以下管道與我聯繫，一起聊聊有趣的合作機會！</p>
-            <div class="contact-links">
-                <a href="mailto:your-email@example.com" class="contact-item">Email</a>
-                <a href="https://github.com/your-username" target="_blank" class="contact-item">GitHub</a>
-                <a href="https://linkedin.com/in/your-profile" target="_blank" class="contact-item">LinkedIn</a>
+            <h2 class="section-title">02 // SUBSPACE TRANSMISSION (Contact)</h2>
+            <div class="holo-panel">
+                <p class="contact-text">開啟全息通訊頻道，歡迎透過以下管道與我聯繫，一起探討星際合作任務！</p>
+                <div class="contact-links">
+                    <a href="mailto:your-email@example.com" class="contact-item">[ EMAIL_LINK ]</a>
+                    <a href="https://github.com/your-username" target="_blank" class="contact-item">[ GITHUB_CORE ]</a>
+                    <a href="https://linkedin.com/in/your-profile" target="_blank" class="contact-item">[ LINKEDIN_NET ]</a>
+                </div>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 你的姓名. All Rights Reserved.</p>
+            <p>&copy; 2026 你的姓名 // MAY THE FORCE BE WITH YOU.</p>
         </div>
     </footer>
 
