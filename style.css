@@ -1,14 +1,22 @@
-/* --- 基礎與星戰配色設定 --- */
+/* --- 陽極黑鋁 × GMK Burgundy × 裸銅 工業極簡配色 --- */
 :root {
-    --bg-space: #030408;          /* 深邃宇宙黑 */
-    --sw-yellow: #FFE81F;         /* 經典星戰片頭黃 */
-    --saber-blue: #00F0FF;        /* 絕地光劍藍 */
-    --saber-red: #FF2A2A;         /* 西斯光劍紅 */
-    --intro-cyan: #4BD5EE;        /* 片頭開場藍字 */
-    --holo-bg: rgba(10, 22, 38, 0.72); /* 全息投影半透明底色 */
-    --text-main: #E6EDF3;
-    --font-display: 'Orbitron', 'Noto Sans TC', sans-serif;
-    --font-body: 'Rajdhani', 'Noto Sans TC', sans-serif;
+    --bg-anodized: #0d0e11;           /* 陽極黑主底色 */
+    --surface-case: #15171c;          /* 鍵盤鋁殼表面 */
+    --surface-hover: #1c1f26;         /* 懸停微亮金屬面 */
+    --border-steel: rgba(226, 232, 240, 0.12); /* 拋光不鏽鋼細邊 */
+    --border-strong: rgba(226, 232, 240, 0.24);
+    
+    --accent-burgundy: #9e2a3b;       /* GMK Burgundy 酒紅 */
+    --accent-burgundy-bright: #bd364a;
+    --accent-copper: #c88a56;         /* 裸銅配重色 */
+    --accent-beige: #dcd4c2;          /* GMK Beige 復古米白 */
+    
+    --text-main: #edf0f5;
+    --text-muted: #939aa8;
+    
+    --font-display: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Noto Sans TC', sans-serif;
 }
 
 * {
@@ -23,18 +31,18 @@ html {
 
 body {
     font-family: var(--font-body);
-    background-color: var(--bg-space);
+    background-color: var(--bg-anodized);
     color: var(--text-main);
-    line-height: 1.7;
+    line-height: 1.75;
     overflow-x: hidden;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* --- 動態星空畫布 --- */
-#starfield {
+/* --- PCB 矩陣畫布 --- */
+#pcb-canvas {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
@@ -42,24 +50,30 @@ body {
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1040px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
 /* --- 導覽列 --- */
 .navbar {
-    height: 75px;
+    height: 72px;
     display: flex;
     align-items: center;
     position: fixed;
     width: 100%;
     top: 0;
-    background: rgba(3, 4, 8, 0.85);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 232, 31, 0.2);
+    background: rgba(13, 14, 17, 0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-steel);
     z-index: 1000;
-    transition: all 0.3s ease;
+    transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(13, 14, 17, 0.96);
+    border-bottom-color: rgba(200, 138, 86, 0.28);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
 
 .navbar .container {
@@ -70,238 +84,482 @@ body {
 }
 
 .logo {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: 1.3rem;
-    color: var(--sw-yellow);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-main);
     text-decoration: none;
-    letter-spacing: 3px;
-    text-shadow: 0 0 10px rgba(255, 232, 31, 0.5);
+    letter-spacing: 1.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent-burgundy-bright);
+    box-shadow: 0 0 10px rgba(189, 54, 74, 0.7);
+}
+
+.logo-sub {
+    color: var(--text-muted);
+    font-weight: 400;
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-}
-
-.nav-links li {
-    margin-left: 2.5rem;
+    gap: 2rem;
 }
 
 .nav-links a {
-    font-family: var(--font-display);
+    font-family: var(--font-mono);
     text-decoration: none;
-    color: var(--text-main);
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    transition: all 0.3s;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: color 0.2s ease;
 }
 
-.nav-links a:hover {
-    color: var(--saber-blue);
-    text-shadow: 0 0 8px var(--saber-blue);
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--accent-beige);
 }
 
-/* --- Hero Section & 片頭透視 --- */
+/* --- Hero Section --- */
 .hero {
-    min-height: 100vh;
+    min-height: 92vh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding-top: 80px;
+    padding-top: 84px;
 }
 
-.intro-blue {
-    color: var(--intro-cyan);
-    font-size: 1.15rem;
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     letter-spacing: 1.5px;
-    margin-bottom: 1rem;
-    opacity: 0.9;
+    color: var(--accent-copper);
+    background: rgba(200, 138, 86, 0.08);
+    border: 1px solid rgba(200, 138, 86, 0.28);
+    padding: 0.4rem 0.9rem;
+    border-radius: 4px;
+    margin-bottom: 1.8rem;
+}
+
+.badge-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-copper);
 }
 
 .hero-name {
     font-family: var(--font-display);
-    font-size: 3.2rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    margin-bottom: 1.5rem;
-    text-transform: uppercase;
-}
-
-/* 星戰經典黃色描邊字體風格 */
-.highlight {
-    color: #000;
-    -webkit-text-stroke: 2px var(--sw-yellow);
-    text-shadow: 0 0 18px rgba(255, 232, 31, 0.45);
-}
-
-/* 片頭字幕 3D 傾斜透視 */
-.crawl-wrapper {
-    perspective: 380px;
-    max-width: 680px;
-    margin: 0 auto 2.5rem;
-}
-
-.crawl-content {
-    transform: rotateX(22deg);
-    transform-origin: 50% 100%;
-    color: var(--sw-yellow);
-    text-align: center;
-}
-
-.episode {
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    letter-spacing: 4px;
-    margin-bottom: 0.6rem;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
     font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 1.4rem;
+}
+
+.highlight {
+    color: var(--accent-beige);
+    position: relative;
+    display: inline-block;
+}
+
+.highlight::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    width: 100%;
+    height: 4px;
+    background: var(--accent-burgundy);
+    z-index: -1;
+}
+
+.hero-alias {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
 }
 
 .hero-tagline {
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 1.6;
+    max-width: 660px;
+    color: var(--text-muted);
+    font-size: 1.08rem;
+    margin-bottom: 2.6rem;
 }
 
-/* --- 光劍發光按鈕 --- */
+/* --- 機械鍵帽按壓按鈕 (Keycap Buttons) --- */
 .hero-btns {
     display: flex;
-    justify-content: center;
-    gap: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1.1rem;
 }
 
-.btn {
-    font-family: var(--font-display);
-    display: inline-block;
-    padding: 0.9rem 2.2rem;
-    border-radius: 4px;
+.keycap-btn {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 165px;
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
     text-decoration: none;
-    font-size: 0.9rem;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.key-legend {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    opacity: 0.72;
+    margin-bottom: 2px;
+}
+
+.key-label {
     font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    position: relative;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
 }
 
-/* 絕地藍光劍 */
-.btn-saber-blue {
-    background: rgba(0, 240, 255, 0.1);
-    border: 2px solid var(--saber-blue);
-    color: #fff;
-    box-shadow: 0 0 10px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+/* GMK Burgundy 鍵帽 */
+.keycap-burgundy {
+    background: var(--accent-burgundy);
+    color: var(--accent-beige);
+    border: 1px solid #b83c4e;
+    box-shadow: 0 5px 0 #5b141f, 0 8px 20px rgba(0, 0, 0, 0.45);
 }
 
-.btn-saber-blue:hover {
-    background: var(--saber-blue);
-    color: #000;
-    box-shadow: 0 0 20px var(--saber-blue), 0 0 40px var(--saber-blue);
-    transform: translateY(-2px);
+.keycap-burgundy:hover {
+    background: var(--accent-burgundy-bright);
 }
 
-/* 經典星戰黃光劍 */
-.btn-saber-gold {
-    background: rgba(255, 232, 31, 0.1);
-    border: 2px solid var(--sw-yellow);
-    color: var(--sw-yellow);
-    box-shadow: 0 0 10px rgba(255, 232, 31, 0.3);
+.keycap-burgundy:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #5b141f, 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-.btn-saber-gold:hover {
-    background: var(--sw-yellow);
-    color: #000;
-    box-shadow: 0 0 20px var(--sw-yellow), 0 0 40px var(--sw-yellow);
-    transform: translateY(-2px);
+/* 陽極黑鍵帽 */
+.keycap-dark {
+    background: #1d2027;
+    color: var(--text-main);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 5px 0 #090a0c, 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* --- 全息投影區塊 (Hologram Sections) --- */
+.keycap-dark:hover {
+    background: #252932;
+    border-color: rgba(200, 138, 86, 0.45);
+}
+
+.keycap-dark:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 #090a0c, 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* --- 區塊共用樣式 --- */
 .section {
-    padding: 6rem 0;
+    padding: 5.5rem 0;
+}
+
+.section-header {
+    margin-bottom: 2.2rem;
+}
+
+.section-index {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-copper);
+    letter-spacing: 2px;
+    margin-bottom: 0.4rem;
 }
 
 .section-title {
     font-family: var(--font-display);
-    font-size: 1.6rem;
-    color: var(--sw-yellow);
-    letter-spacing: 2px;
-    margin-bottom: 2rem;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-/* 光劍分割線 */
 .section-title::after {
     content: '';
-    display: block;
-    width: 120px;
-    height: 3px;
-    background: #fff;
-    box-shadow: 0 0 8px var(--saber-blue), 0 0 16px var(--saber-blue);
-    margin-top: 12px;
-    border-radius: 2px;
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-strong), transparent);
 }
 
-.holo-panel {
-    background: var(--holo-bg);
-    border: 1px solid rgba(0, 240, 255, 0.35);
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.1), inset 0 0 20px rgba(0, 240, 255, 0.08);
-    padding: 2.5rem;
-    border-radius: 6px;
-    position: relative;
-    backdrop-filter: blur(4px);
+/* --- 鋁殼質感面板 --- */
+.panel {
+    background: rgba(21, 23, 28, 0.86);
+    border: 1px solid var(--border-steel);
+    border-radius: 8px;
+    padding: 2rem;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
-.holo-panel p + p {
-    margin-top: 1.2rem;
+.panel:hover {
+    border-color: var(--border-strong);
 }
 
-.text-gold {
-    color: var(--sw-yellow);
+/* --- About Section --- */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.about-text p + p {
+    margin-top: 1.1rem;
+}
+
+.about-text strong {
+    color: var(--accent-beige);
     font-weight: 700;
 }
 
-.text-blue {
-    color: var(--saber-blue);
-    font-weight: 700;
+.spec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 1.8rem;
+    border-left: 1px solid var(--border-steel);
 }
 
-/* --- Contact Links --- */
+.spec-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.spec-key {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent-copper);
+    letter-spacing: 1.5px;
+    margin-bottom: 0.2rem;
+}
+
+.spec-val {
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+/* --- Projects Grid --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.7rem;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(200, 138, 86, 0.35);
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+}
+
+.tag {
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.tag-copper {
+    color: var(--accent-copper);
+    background: rgba(200, 138, 86, 0.12);
+    border: 1px solid rgba(200, 138, 86, 0.3);
+}
+
+.tag-burgundy {
+    color: #e88d9a;
+    background: rgba(158, 42, 59, 0.18);
+    border: 1px solid rgba(158, 42, 59, 0.4);
+}
+
+.tag-steel {
+    color: var(--accent-beige);
+    background: rgba(220, 212, 194, 0.08);
+    border: 1px solid rgba(220, 212, 194, 0.22);
+}
+
+.card-year {
+    color: var(--text-muted);
+}
+
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.card-desc {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    flex-grow: 1;
+    margin-bottom: 1.4rem;
+}
+
+.tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-pills span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-steel);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+}
+
+/* --- Gear Section --- */
+.gear-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+}
+
+.gear-heading {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--accent-beige);
+    padding-bottom: 0.9rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border-steel);
+    letter-spacing: 0.5px;
+}
+
+.gear-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.gear-list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.gear-name {
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--text-main);
+}
+
+.gear-detail {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+}
+
+/* --- Contact Section --- */
+.contact-text {
+    color: var(--text-muted);
+    max-width: 640px;
+    margin-bottom: 1.8rem;
+}
+
 .contact-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: 1rem;
 }
 
-.contact-item {
-    font-family: var(--font-display);
-    color: var(--saber-blue);
-    text-decoration: none;
-    font-size: 0.95rem;
-    letter-spacing: 1.5px;
-    transition: all 0.3s;
-}
-
-.contact-item:hover {
-    color: var(--saber-red);
-    text-shadow: 0 0 10px var(--saber-red);
+.contact-key {
+    min-width: 140px;
 }
 
 /* --- Footer --- */
 .footer {
     padding: 2.5rem 0;
     text-align: center;
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-steel);
+}
+
+/* --- 滾動進場動畫 --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* --- 響應式設計 --- */
-@media (max-width: 768px) {
-    .hero-name { font-size: 2.1rem; }
-    .crawl-content { transform: rotateX(12deg); }
-    .hero-btns { flex-direction: column; gap: 1rem; }
-    .btn { width: 100%; }
-    .holo-panel { padding: 1.5rem; }
+@media (max-width: 900px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-grid,
+    .gear-grid {
+        grid-template-columns: 1fr;
+    }
+    .spec-list {
+        padding-left: 0;
+        padding-top: 1.5rem;
+        border-left: none;
+        border-top: 1px solid var(--border-steel);
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+    .nav-links {
+        gap: 1rem;
+    }
+    .nav-links a {
+        font-size: 0.72rem;
+    }
+    .logo-sub {
+        display: none;
+    }
+    .keycap-btn {
+        width: 100%;
+    }
 }
