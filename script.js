@@ -1,77 +1,157 @@
 document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id]');
 
-    // 導覽列滾動光影變化
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 240, 255, 0.15)';
-            navbar.style.background = 'rgba(3, 4, 8, 0.96)';
+    // --- 1. 導覽列滾動狀態與當前區塊高亮 ---
+    function handleScroll() {
+        if (window.scrollY > 40) {
+            navbar.classList.add('scrolled');
         } else {
-            navbar.style.boxShadow = 'none';
-            navbar.style.background = 'rgba(3, 4, 8, 0.85)';
+            navbar.classList.remove('scrolled');
         }
-    });
 
-    // --- 動態星空背景 (Starfield Canvas) ---
-    const canvas = document.getElementById('starfield');
-    const ctx = canvas.getContext('2d');
-
-    let stars = [];
-    const numStars = 180;
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-
-    function initStars() {
-        stars = [];
-        for (let i = 0; i < numStars; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 1.5 + 0.3,
-                alpha: Math.random(),
-                twinkleSpeed: (Math.random() * 0.015) + 0.005,
-                speedY: (Math.random() * 0.15) + 0.05 // 緩慢漂浮感
-            });
-        }
-    }
-
-    function animateStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        stars.forEach(star => {
-            // 閃爍計算
-            star.alpha += star.twinkleSpeed;
-            if (star.alpha > 1 || star.alpha < 0.15) {
-                star.twinkleSpeed = -star.twinkleSpeed;
+        let currentId = '';
+        sections.forEach(section => {
+            const top = section.offsetTop - 160;
+            if (window.scrollY >= top) {
+                currentId = section.getAttribute('id');
             }
-
-            // 緩慢向上移動模擬太空航行
-            star.y -= star.speedY;
-            if (star.y < 0) {
-                star.y = canvas.height;
-                star.x = Math.random() * canvas.width;
-            }
-
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-            ctx.fill();
         });
 
-        requestAnimationFrame(animateStars);
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
+        });
     }
 
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        initStars();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // --- 2. 區塊滾動漸入動畫 ---
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // --- 3. 互動式 PCB 軸體矩陣背景 (取代原本的星空畫布) ---
+    const canvas = document.getElementById('pcb-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const GRID_SIZE = 44;
+    const pointer = { x: -9999, y: -9999 };
+    const ripples = [];
+
+    let width = 0;
+    let height = 0;
+
+    function resizeCanvas() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        pointer.x = -9999;
+        pointer.y = -9999;
     });
 
-    resizeCanvas();
-    initStars();
-    animateStars();
+    // 點擊時模擬軸體觸發的銅色訊號波紋
+    window.addEventListener('mousedown', (e) => {
+        ripples.push({
+            x: e.clientX,
+            y: e.clientY,
+            radius: 0,
+            maxRadius: 180,
+            alpha: 0.45
+        });
+    });
 
-    console.log("Transmission received. May the Force be with you.");
+    function drawPCBGrid() {
+        ctx.clearRect(0, 0, width, height);
+
+        const cols = Math.ceil(width / GRID_SIZE) + 1;
+        const rows = Math.ceil(height / GRID_SIZE) + 1;
+
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const x = c * GRID_SIZE;
+                const y = r * GRID_SIZE;
+
+                const dx = x - pointer.x;
+                const dy = y - pointer.y;
+                const dist = Math.hypot(dx, dy);
+
+                // 基礎焊點（暗不鏽鋼色）
+                let radius = 1.2;
+                let fill = 'rgba(226, 232, 240, 0.09)';
+
+                // 滑鼠靠近時亮起銅色/酒紅微光，並畫出局部 PCB 矩陣連線
+                if (dist < 170) {
+                    const intensity = 1 - dist / 170;
+                    radius = 1.2 + intensity * 1.8;
+                    fill = `rgba(200, 138, 86, ${0.18 + intensity * 0.65})`;
+
+                    if (c < cols - 1) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(x + GRID_SIZE, y);
+                        ctx.strokeStyle = `rgba(158, 42, 59, ${intensity * 0.28})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                    if (r < rows - 1) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(x, y + GRID_SIZE);
+                        ctx.strokeStyle = `rgba(200, 138, 86, ${intensity * 0.22})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = fill;
+                ctx.fill();
+            }
+        }
+
+        // 繪製點擊訊號波紋
+        for (let i = ripples.length - 1; i >= 0; i--) {
+            const rp = ripples[i];
+            rp.radius += 5;
+            rp.alpha *= 0.94;
+
+            ctx.beginPath();
+            ctx.arc(rp.x, rp.y, rp.radius, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(200, 138, 86, ${rp.alpha})`;
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+
+            if (rp.alpha < 0.02 || rp.radius >= rp.maxRadius) {
+                ripples.splice(i, 1);
+            }
+        }
+
+        requestAnimationFrame(drawPCBGrid);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawPCBGrid();
 });
